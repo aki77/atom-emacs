@@ -116,13 +116,15 @@ class AtomicEmacs
 
   killWord: =>
     @editor.transact =>
+      maintainClipboard = false
       for selection in @editor.getSelections()
         selection.modifySelection ->
           if selection.isEmpty()
             cursorTools = new CursorTools(selection.cursor)
             cursorTools.skipNonWordCharactersForward()
             cursorTools.skipWordCharactersForward()
-          selection.deleteSelectedText()
+          selection.cut(maintainClipboard)
+        maintainClipboard = true
 
   openLine: =>
     @editor.insertNewline()

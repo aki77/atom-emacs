@@ -1,4 +1,4 @@
-{Point, CompositeDisposable} = require('atom')
+{Point, CompositeDisposable, Disposable} = require('atom')
 
 # Represents an Emacs-style mark.
 #
@@ -50,14 +50,14 @@ class Mark
     @markerSubscriptions = new CompositeDisposable()
     @markerSubscriptions.add(@cursor.onDidChangePosition(@_updateSelection))
     @markerSubscriptions.add(@editor.getBuffer().onDidChange(@_onModified))
-    atom.views.getView(@editor).classList.add(MARK_MODE_CLASS)
+    @markerSubscriptions.add(@_addClickEventListener())
+    @markerSubscriptions.add(@_addClass())
     @active = true
 
   deactivate: ->
     if @active
       @markerSubscriptions?.dispose()
       @markerSubscriptions = null
-      atom.views.getView(@editor).classList.remove(MARK_MODE_CLASS)
       @active = false
     @cursor.clearSelection()
 
@@ -68,6 +68,21 @@ class Mark
     position = @marker.getHeadBufferPosition()
     @set().activate()
     @cursor.setBufferPosition(position)
+
+  _addClass: =>
+    editorElement = atom.views.getView(@editor)
+    editorElement.classList.add(MARK_MODE_CLASS)
+    new Disposable ->
+      editorElement.classList.remove(MARK_MODE_CLASS)
+
+  _addClickEventListener: =>
+    callback = ({which}) =>
+      # left click
+      @deactivate() if which is 1
+    editorElement = atom.views.getView(@editor)
+    editorElement.addEventListener('mousedown', callback)
+    new Disposable ->
+      editorElement.removeEventListener('mousedown', callback)
 
   _destroy: =>
     @deactivate() if @active
@@ -87,7 +102,10 @@ class Mark
         a = @cursor.selection.getTailBufferPosition()
 
       b = newBufferPosition
-      @cursor.selection.setBufferRange([a, b], reversed: Point.min(a, b) is b)
+      @cursor.selection.setBufferRange([a, b], {
+        reversed: Point.min(a, b) is b
+        autoscroll: false
+      })
     finally
       @updating = false
 

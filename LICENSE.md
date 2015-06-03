@@ -1,4 +1,4 @@
-Copyright (c) 2014 <Evan Dale Aromin>
+Copyright (c) 2015 <Your name here>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

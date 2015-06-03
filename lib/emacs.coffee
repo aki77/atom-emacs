@@ -5,8 +5,8 @@ CursorTools = require './cursor-tools'
 {appendCopy} = require './selection'
 
 module.exports =
-class AtomicEmacs
-  KILL_COMMAND = 'atomic-emacs:kill-region'
+class Emacs
+  KILL_COMMAND = 'emacs:kill-region'
 
   destroyed: false
 
@@ -42,27 +42,27 @@ class AtomicEmacs
 
   registerCommands: ->
     @subscriptions.add atom.commands.add @editorElement,
-      'atomic-emacs:append-next-kill': @appendNextKill
-      'atomic-emacs:backward-kill-word': @backwardKillWord
-      'atomic-emacs:backward-paragraph': @backwardParagraph
-      'atomic-emacs:backward-word': @backwardWord
-      'atomic-emacs:copy': @copy
-      'atomic-emacs:delete-horizontal-space': @deleteHorizontalSpace
-      'atomic-emacs:delete-indentation': @deleteIndentation
-      'atomic-emacs:exchange-point-and-mark': @exchangePointAndMark
-      'atomic-emacs:forward-paragraph': @forwardParagraph
-      'atomic-emacs:forward-word': @forwardWord
-      'atomic-emacs:just-one-space': @justOneSpace
-      'atomic-emacs:kill-line': @killLine
-      'atomic-emacs:kill-region': @killRegion
-      'atomic-emacs:kill-whole-line': @killWholeLine
-      'atomic-emacs:kill-word': @killWord
-      'atomic-emacs:open-line': @openLine
-      'atomic-emacs:recenter-top-bottom': @recenterTopBottom
-      'atomic-emacs:set-mark': @setMark
-      'atomic-emacs:transpose-chars': @transposeChars
-      'atomic-emacs:transpose-lines': @transposeLines
-      'atomic-emacs:transpose-words': @transposeWords
+      'emacs:append-next-kill': @appendNextKill
+      'emacs:backward-kill-word': @backwardKillWord
+      'emacs:backward-paragraph': @backwardParagraph
+      'emacs:backward-word': @backwardWord
+      'emacs:copy': @copy
+      'emacs:delete-horizontal-space': @deleteHorizontalSpace
+      'emacs:delete-indentation': @deleteIndentation
+      'emacs:exchange-point-and-mark': @exchangePointAndMark
+      'emacs:forward-paragraph': @forwardParagraph
+      'emacs:forward-word': @forwardWord
+      'emacs:just-one-space': @justOneSpace
+      'emacs:kill-line': @killLine
+      'emacs:kill-region': @killRegion
+      'emacs:kill-whole-line': @killWholeLine
+      'emacs:kill-word': @killWord
+      'emacs:open-line': @openLine
+      'emacs:recenter-top-bottom': @recenterTopBottom
+      'emacs:set-mark': @setMark
+      'emacs:transpose-chars': @transposeChars
+      'emacs:transpose-lines': @transposeLines
+      'emacs:transpose-words': @transposeWords
       'core:cancel': @deactivateCursors
 
   appendNextKill: =>

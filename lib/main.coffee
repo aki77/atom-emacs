@@ -1,25 +1,25 @@
 {CompositeDisposable} = require 'atom'
-AtomicEmacs = require './atomic-emacs'
+Emacs = require './emacs'
 GlobalEmacsState = require './global-emacs-state'
 
 module.exports =
 
   activate: ->
     @subscriptions = new CompositeDisposable
-    @atomicEmacsObjects = new WeakMap
+    @emacsObjects = new WeakMap
     @globalEmacsState = new GlobalEmacsState
     @subscriptions.add atom.workspace.observeTextEditors (editor) =>
       return if editor.mini
-      unless @atomicEmacsObjects.get(editor)
-        @atomicEmacsObjects.set(editor, new AtomicEmacs(editor, @globalEmacsState))
+      unless @emacsObjects.get(editor)
+        @emacsObjects.set(editor, new Emacs(editor, @globalEmacsState))
 
   deactivate: ->
     @subscriptions?.dispose()
     @subscriptions = null
 
     for editor in atom.workspace.getTextEditors()
-      @atomicEmacsObjects.get(editor)?.destroy()
-    @atomicEmacsObjects = null
+      @emacsObjects.get(editor)?.destroy()
+    @emacsObjects = null
 
     @globalEmacsState?.destroy()
     @globalEmacsState = null

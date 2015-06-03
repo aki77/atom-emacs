@@ -1,14 +1,17 @@
 {
-  "name": "atomic-emacs",
+  "name": "emacs",
   "main": "./lib/main",
   "version": "0.6.0",
-  "description": "An atomic implementation of emacs keybindings",
-  "repository": "https://github.com/avendael/atomic-emacs",
+  "description": "emacs keybindings.(Fork of atomic-emacs)",
+  "repository": "https://github.com/aki77/atom-emacs",
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">=0.174.0 <2.0.0"
   },
   "dependencies": {
     "underscore-plus": "1.x"
-  }
+  },
+  "keywords": [
+    "emacs"
+  ]
 }

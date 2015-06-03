@@ -1,6 +1,6 @@
 getEditorElement = (callback) ->
   waitsForPromise ->
-    atom.packages.activatePackage('atomic-emacs')
+    atom.packages.activatePackage('emacs')
 
   waitsForPromise ->
     atom.workspace.open().then (editor) ->

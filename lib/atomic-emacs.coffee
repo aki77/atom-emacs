@@ -1,20 +1,27 @@
 _ = require 'underscore-plus'
-{CompositeDisposable} = require 'atom'
+{CompositeDisposable, Disposable} = require 'atom'
 Mark = require './mark'
 CursorTools = require './cursor-tools'
+{appendCopy} = require './selection'
 
 module.exports =
 class AtomicEmacs
+  KILL_COMMAND = 'atomic-emacs:kill-region'
+
   destroyed: false
 
-  constructor: (@editor) ->
+  constructor: (@editor, @globalEmacsState) ->
     @editorElement = atom.views.getView(editor)
     @subscriptions = new CompositeDisposable
     @subscriptions.add(@editor.onDidDestroy(@destroy))
-
     @subscriptions.add(@editor.onDidChangeSelectionRange(_.debounce((event) =>
       @selectionRangeChanged(event)
     , 100)))
+
+    # need for kill-region
+    @subscriptions.add(@editor.onDidInsertText( =>
+      @globalEmacsState.logCommand(type: 'editor:didInsertText')
+    ))
 
     @registerCommands()
 
@@ -35,6 +42,7 @@ class AtomicEmacs
 
   registerCommands: ->
     @subscriptions.add atom.commands.add @editorElement,
+      'atomic-emacs:append-next-kill': @appendNextKill
       'atomic-emacs:backward-kill-word': @backwardKillWord
       'atomic-emacs:backward-paragraph': @backwardParagraph
       'atomic-emacs:backward-word': @backwardWord
@@ -45,6 +53,8 @@ class AtomicEmacs
       'atomic-emacs:forward-paragraph': @forwardParagraph
       'atomic-emacs:forward-word': @forwardWord
       'atomic-emacs:just-one-space': @justOneSpace
+      'atomic-emacs:kill-line': @killLine
+      'atomic-emacs:kill-region': @killRegion
       'atomic-emacs:kill-whole-line': @killWholeLine
       'atomic-emacs:kill-word': @killWord
       'atomic-emacs:open-line': @openLine
@@ -55,15 +65,22 @@ class AtomicEmacs
       'atomic-emacs:transpose-words': @transposeWords
       'core:cancel': @deactivateCursors
 
+  appendNextKill: =>
+    @globalEmacsState.thisCommand = KILL_COMMAND
+    atom.notifications.addInfo('If a next command is a kill, it will append')
+
   backwardKillWord: =>
-    @editor.transact =>
-      for selection in @editor.getSelections()
-        selection.modifySelection ->
-          if selection.isEmpty()
-            cursorTools = new CursorTools(selection.cursor)
-            cursorTools.skipNonWordCharactersBackward()
-            cursorTools.skipWordCharactersBackward()
-          selection.deleteSelectedText()
+    @globalEmacsState.thisCommand = KILL_COMMAND
+    maintainClipboard = false
+    @killSelectedText((selection) ->
+      selection.modifySelection ->
+        if selection.isEmpty()
+          cursorTools = new CursorTools(selection.cursor)
+          cursorTools.skipNonWordCharactersBackward()
+          cursorTools.skipWordCharactersBackward()
+        selection.cut(maintainClipboard) unless selection.isEmpty()
+      maintainClipboard = true
+    , true)
 
   backwardWord: =>
     @editor.moveCursors (cursor) ->
@@ -106,25 +123,45 @@ class AtomicEmacs
       range = tools.horizontalSpaceRange()
       @editor.setTextInBufferRange(range, ' ')
 
-  killWholeLine: =>
+  killRegion: =>
+    @globalEmacsState.thisCommand = KILL_COMMAND
     maintainClipboard = false
-    @editor.mutateSelectedText (selection) ->
+    @killSelectedText (selection) ->
+      selection.cut(maintainClipboard, false) unless selection.isEmpty()
+      maintainClipboard = true
+
+  killWholeLine: =>
+    @globalEmacsState.thisCommand = KILL_COMMAND
+    maintainClipboard = false
+    @killSelectedText (selection) ->
       selection.clear()
       selection.selectLine()
       selection.cut(maintainClipboard, true)
       maintainClipboard = true
 
+  killLine: (event) =>
+    @globalEmacsState.thisCommand = KILL_COMMAND
+    maintainClipboard = false
+    @killSelectedText (selection) ->
+      fullLine = false
+      selection.selectToEndOfLine() if selection.isEmpty()
+      if selection.isEmpty()
+        selection.selectLine()
+        fullLine = true
+      selection.cut(maintainClipboard, fullLine)
+      maintainClipboard = true
+
   killWord: =>
-    @editor.transact =>
-      maintainClipboard = false
-      for selection in @editor.getSelections()
-        selection.modifySelection ->
-          if selection.isEmpty()
-            cursorTools = new CursorTools(selection.cursor)
-            cursorTools.skipNonWordCharactersForward()
-            cursorTools.skipWordCharactersForward()
-          selection.cut(maintainClipboard)
-        maintainClipboard = true
+    @globalEmacsState.thisCommand = KILL_COMMAND
+    maintainClipboard = false
+    @killSelectedText (selection) ->
+      selection.modifySelection ->
+        if selection.isEmpty()
+          cursorTools = new CursorTools(selection.cursor)
+          cursorTools.skipNonWordCharactersForward()
+          cursorTools.skipWordCharactersForward()
+        selection.cut(maintainClipboard)
+      maintainClipboard = true
 
   openLine: =>
     @editor.insertNewline()
@@ -220,3 +257,21 @@ class AtomicEmacs
 
       rowCount = blankRow - currentRow
       cursor.moveDown(rowCount)
+
+  # private
+  killSelectedText: (fn, reversed = false) ->
+    if @globalEmacsState.lastCommand isnt KILL_COMMAND
+      return @editor.mutateSelectedText(fn)
+
+    copyMethods = new WeakMap
+    for selection in @editor.getSelections()
+      copyMethods.set(selection, selection.copy)
+      selection.copy = appendCopy.bind(selection, reversed)
+
+    @editor.mutateSelectedText(fn)
+
+    for selection in @editor.getSelections()
+      originalCopy = copyMethods.get(selection)
+      selection.copy = originalCopy if originalCopy
+
+    return

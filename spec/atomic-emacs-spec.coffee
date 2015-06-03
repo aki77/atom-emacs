@@ -155,6 +155,13 @@ describe 'AtomicEmacs', ->
       atom.commands.dispatch(editorElement, 'atomic-emacs:kill-word')
       expect(EditorState.get(editor)).toEqual("aaa b[0] c[1] ddd")
 
+    it 'appending kills', ->
+      EditorState.set(editor, 'aaa [0] bbb ccc')
+      atom.commands.dispatch(editorElement, 'atomic-emacs:kill-word')
+      atom.commands.dispatch(editorElement, 'atomic-emacs:kill-word')
+      expect(atom.clipboard.read()).toBe ' bbb ccc'
+      expect(EditorState.get(editor)).toEqual('aaa [0]')
+
   describe "atomic-emacs:backward-kill-word", ->
     it "deletes from the cursor to the beginning of the word if inside a word", ->
       EditorState.set(editor, "aaa bb[0]b ccc")
@@ -195,6 +202,13 @@ describe 'AtomicEmacs', ->
       EditorState.set(editor, "aaa bb[0]b cc[1]c ddd")
       atom.commands.dispatch(editorElement, 'atomic-emacs:backward-kill-word')
       expect(EditorState.get(editor)).toEqual("aaa [0]b [1]c ddd")
+
+    it 'appending kills', ->
+      EditorState.set(editor, 'aaa bbb ccc[0]')
+      atom.commands.dispatch(editorElement, 'atomic-emacs:backward-kill-word')
+      atom.commands.dispatch(editorElement, 'atomic-emacs:backward-kill-word')
+      expect(atom.clipboard.read()).toBe 'bbb ccc'
+      expect(EditorState.get(editor)).toEqual('aaa [0]')
 
   describe "atomic-emacs:just-one-space", ->
     it "replaces all horizontal space around each cursor with one space", ->
@@ -381,3 +395,20 @@ describe 'AtomicEmacs', ->
       EditorState.set(editor, "a(0)aa\nbb[0]b\nccc")
       atom.commands.dispatch(editorElement, 'atomic-emacs:kill-whole-line')
       expect(EditorState.get(editor)).toEqual("aaa\n[0]ccc")
+
+    it 'appending kills', ->
+      EditorState.set(editor, "aa\nb[0]b\ncc\ndd")
+      atom.commands.dispatch(editorElement, 'atomic-emacs:kill-whole-line')
+      atom.commands.dispatch(editorElement, 'atomic-emacs:kill-whole-line')
+      expect(atom.clipboard.read()).toBe "bb\ncc\n"
+      expect(EditorState.get(editor)).toEqual("aa\n[0]dd")
+
+  describe 'atomic-emacs:append-next-kill', ->
+    it 'appending kills', ->
+      EditorState.set(editor, '[0]aaa bbb ccc ddd')
+      atom.commands.dispatch(editorElement, 'atomic-emacs:kill-word')
+      atom.commands.dispatch(editorElement, 'atomic-emacs:forward-word')
+      atom.commands.dispatch(editorElement, 'atomic-emacs:append-next-kill')
+      atom.commands.dispatch(editorElement, 'atomic-emacs:kill-word')
+      expect(atom.clipboard.read()).toBe 'aaa ccc'
+      expect(EditorState.get(editor)).toEqual(' bbb[0] ddd')

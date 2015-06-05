@@ -210,6 +210,13 @@ describe 'Emacs', ->
       expect(atom.clipboard.read()).toBe 'bbb ccc'
       expect(EditorState.get(editor)).toEqual('aaa [0]')
 
+    it 'appending kills on multiple cursors', ->
+      EditorState.set(editor, "111 aaa bb[0]b 222 cc[1]c ddd")
+      atom.commands.dispatch(editorElement, 'emacs:backward-kill-word')
+      atom.commands.dispatch(editorElement, 'emacs:backward-kill-word')
+      expect(atom.clipboard.read()).toBe "aaa bb\n222 cc"
+      EditorState.set(editor, "111 [0]b [1]c ddd")
+
   describe "emacs:just-one-space", ->
     it "replaces all horizontal space around each cursor with one space", ->
       EditorState.set(editor, "a [0]\tb c [1]\td")

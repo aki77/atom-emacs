@@ -1,3 +1,11 @@
+## 0.7.1
+ * Support clipboard-plus package
+
+## 0.7.0
+* Renaming atomic-emacs to emacs
+* Fix set mark
+* Support kill-region
+
 ## 0.6.0
 * Remove usage of deprecated APIs
 * Add delete indentation

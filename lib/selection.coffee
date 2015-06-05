@@ -30,13 +30,17 @@ appendCopy = (reversed = false, maintainClipboard=false, fullLine=false) ->
   if maintainClipboard
     index = @editor.getSelections().indexOf(this)
     {text: _text, indentBasis: _indentBasis, fullLine: _fullLine} = metadata.selections[index]
-    newmetadata = appendTo(_text, _indentBasis, _fullLine)
-    metadata.selections[index] = newmetadata
-    newtext = metadata.selections.map((selection) -> selection.text).join("\n")
-    atom.clipboard.write(newtext, metadata)
+    selectionData = appendTo(_text, _indentBasis, _fullLine)
+    newMetadata = metadata
+    newMetadata.selections[index] = selectionData
+    newText = newMetadata.selections.map((selection) -> selection.text).join("\n")
   else
     {_indentBasis, _fullLine} = metadata
-    {text, indentBasis, fullLine} = appendTo(clipboardText, _indentBasis, _fullLine)
-    atom.clipboard.write(text, {indentBasis, fullLine})
+    {text: newText, indentBasis, fullLine} = appendTo(clipboardText, _indentBasis, _fullLine)
+    newMetadata = {indentBasis, fullLine}
+
+  # support clipboard-plus
+  newMetadata.replace = true
+  atom.clipboard.write(newText, newMetadata)
 
 module.exports = {appendCopy}

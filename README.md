@@ -2,7 +2,8 @@
 
 A fork of [atomic-emacs](https://atom.io/packages/atomic-emacs)
 
-An atomic implementation of emacs keybindings.
+emacs keybindings.
+[![Build Status](https://travis-ci.org/aki77/atom-emacs.svg)](https://travis-ci.org/aki77/atom-emacs)
 
 ![](http://i.gyazo.com/6c9309e4608286d08c8b353b8011bbcb.gif)
 

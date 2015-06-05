@@ -7,59 +7,14 @@ emacs keybindings.
 
 ![](http://i.gyazo.com/6c9309e4608286d08c8b353b8011bbcb.gif)
 
-## Keymap
 
-* 'ctrl-a': 'editor:move-to-first-character-of-line'
-* 'ctrl-e': 'editor:move-to-end-of-screen-line'
-* 'ctrl-f': 'core:move-right'
-* 'ctrl-b': 'core:move-left'
-* 'ctrl-n': 'core:move-down'
-* 'ctrl-p': 'core:move-up'
-* 'ctrl-l': 'emacs:recenter-top-bottom'
-* 'ctrl-g': 'core:cancel'
-* 'ctrl-k': 'emacs:kill-line'
-* 'ctrl-y': 'core:paste'
-* 'ctrl-w': 'emacs:kill-region'
-* 'ctrl-v': 'core:page-down'
-* 'ctrl-s': 'find-and-replace:show'
-* 'ctrl-r': 'find-and-replace:show'
-* 'ctrl-j': 'editor:newline'
-* 'ctrl-/': 'core:undo'
-* 'ctrl-o': 'emacs:open-line'
-* 'ctrl-t': 'emacs:transpose-chars'
-* 'ctrl-_': 'core:undo'
-* 'ctrl-space': 'emacs:set-mark'
-* 'ctrl-x 0': 'pane:close'
-* 'ctrl-x 1': 'pane:close-other-items'
-* 'ctrl-x 2': 'pane:split-down'
-* 'ctrl-x 3': 'pane:split-right'
-* 'ctrl-x b': 'fuzzy-finder:toggle-buffer-finder'
-* 'ctrl-x h': 'core:select-all'
-* 'ctrl-x k': 'core:close'
-* 'ctrl-x o': 'window:focus-next-pane'
-* 'ctrl-x ctrl-f': 'fuzzy-finder:toggle-file-finder'
-* 'ctrl-x ctrl-s': 'core:save'
-* 'ctrl-x ctrl-u': 'editor:upper-case'
-* 'ctrl-x ctrl-l': 'editor:lower-case'
-* 'ctrl-x ctrl-t': 'emacs:transpose-lines'
-* 'ctrl-x ctrl-x': 'emacs:exchange-point-and-mark'
-* 'ctrl-shift-backspace': 'emacs:kill-whole-line'
-* 'ctrl-alt-w': 'emacs:append-next-kill'
-* 'alt-f': 'emacs:forward-word'
-* 'alt-b': 'emacs:backward-word'
-* 'alt-q': 'autoflow:reflow-selection'
-* 'atl-t': 'emacs:transpose-words'
-* 'alt-x': 'command-palette:toggle'
-* 'alt-w': 'emacs:copy'
-* 'alt-;': 'editor:toggle-line-comments'
-* 'alt-v': 'core:page-up'
-* 'alt-<': 'core:move-to-top'
-* 'alt->': 'core:move-to-bottom'
-* 'alt-m': 'editor:move-to-first-character-of-line'
-* 'alt-/': 'autocomplete:toggle'
-* 'alt-.': 'symbols-view:toggle-file-symbols'
-* 'alt-^': 'emacs:delete-indentation'
-* 'alt-\\': 'emacs:delete-horizontal-space'
-* 'alt-space': 'emacs:just-one-space'
-* 'alt-{': 'emacs:backward-paragraph'
-* 'alt-}': 'emacs:forward-paragraph'
+## Features
+* Regular Emacs key binding(see below)
+* Marker
+* Appending Kills
+
+## Note
+* Please use [clipboard-plus](https://atom.io/packages/clipboard-plus) instead of kill-ring.
+
+## Keymap
+* [emacs.cson](https://github.com/aki77/atom-emacs/blob/master/keymaps/emacs.cson)

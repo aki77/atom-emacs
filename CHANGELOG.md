@@ -1,10 +1,13 @@
+## 0.7.2
+* Add 'emacs:capitalize-word' command
+
 ## 0.7.1
- * Support clipboard-plus package
+* Support clipboard-plus package
 
 ## 0.7.0
 * Renaming atomic-emacs to emacs
-* Fix set mark
-* Support kill-region
+* Fix set-mark
+* Support appending kills
 
 ## 0.6.0
 * Remove usage of deprecated APIs

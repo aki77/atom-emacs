@@ -1,14 +1,15 @@
 'atom-workspace':
   'ctrl-g': 'core:cancel'
-  'alt-x': 'command-palette:toggle'
   'ctrl-x k': 'core:close'
+  'ctrl-x ctrl-c': 'window:close'
   'ctrl-x ctrl-f': 'fuzzy-finder:toggle-file-finder'
-  'ctrl-x b': 'fuzzy-finder:toggle-buffer-finder'
-  'ctrl-x 3': 'pane:split-right'
-  'ctrl-x 2': 'pane:split-down'
   'ctrl-x 0': 'pane:close'
   'ctrl-x 1': 'pane:close-other-items'
+  'ctrl-x 2': 'pane:split-down'
+  'ctrl-x 3': 'pane:split-right'
+  'ctrl-x b': 'fuzzy-finder:toggle-buffer-finder'
   'ctrl-x o': 'window:focus-next-pane'
+  'alt-x': 'command-palette:toggle'
 
 'atom-text-editor:not([mini])':
   'ctrl-f': 'core:move-right'
@@ -37,7 +38,7 @@
   'ctrl-x ctrl-x': 'emacs:exchange-point-and-mark'
   'ctrl-shift-backspace': 'emacs:kill-whole-line'
   'ctrl-alt-w': 'emacs:append-next-kill'
-  'alt-c': 'emacs:capitalize-word'  
+  'alt-c': 'emacs:capitalize-word'
   'alt-f': 'emacs:forward-word'
   'alt-b': 'emacs:backward-word'
   'alt-d': 'emacs:kill-word'

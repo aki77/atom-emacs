@@ -46,6 +46,7 @@ class Emacs
       'emacs:backward-kill-word': @backwardKillWord
       'emacs:backward-paragraph': @backwardParagraph
       'emacs:backward-word': @backwardWord
+      'emacs:capitalize-word': @capitalizeWord
       'emacs:copy': @copy
       'emacs:delete-horizontal-space': @deleteHorizontalSpace
       'emacs:delete-indentation': @deleteIndentation
@@ -87,6 +88,10 @@ class Emacs
       tools = new CursorTools(cursor)
       tools.skipNonWordCharactersBackward()
       tools.skipWordCharactersBackward()
+
+  capitalizeWord: =>
+    @editor.replaceSelectedText selectWordIfEmpty: true, (text) ->
+      _.capitalize(text)
 
   copy: =>
     @editor.copySelectedText()

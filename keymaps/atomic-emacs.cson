@@ -37,6 +37,7 @@
   'ctrl-x ctrl-x': 'emacs:exchange-point-and-mark'
   'ctrl-shift-backspace': 'emacs:kill-whole-line'
   'ctrl-alt-w': 'emacs:append-next-kill'
+  'alt-c': 'emacs:capitalize-word'  
   'alt-f': 'emacs:forward-word'
   'alt-b': 'emacs:backward-word'
   'alt-d': 'emacs:kill-word'

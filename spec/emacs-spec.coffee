@@ -419,3 +419,14 @@ describe 'Emacs', ->
       atom.commands.dispatch(editorElement, 'emacs:kill-word')
       expect(atom.clipboard.read()).toBe 'aaa ccc'
       expect(EditorState.get(editor)).toEqual(' bbb[0] ddd')
+
+  describe 'emacs:capitalize-word', ->
+    it 'capitalize the current word', ->
+      EditorState.set(editor, 'aaa b[0]bb ccc')
+      atom.commands.dispatch(editorElement, 'emacs:capitalize-word')
+      expect(EditorState.get(editor)).toEqual('aaa B[0]bb ccc')
+
+    it 'capitalize the current selection', ->
+      EditorState.set(editor, 'aaa b(0)bb[0] ccc')
+      atom.commands.dispatch(editorElement, 'emacs:capitalize-word')
+      expect(EditorState.get(editor)).toEqual('aaa b(0)Bb[0] ccc')

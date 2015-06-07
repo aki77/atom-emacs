@@ -1,3 +1,6 @@
+## 0.7.3
+* Fix #1
+
 ## 0.7.2
 * Add 'emacs:capitalize-word' command
 

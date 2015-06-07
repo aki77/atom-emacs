@@ -36,11 +36,18 @@ class Mark
     @marker.setHeadBufferPosition(@cursor.getBufferPosition())
     @
 
-  setBufferRange: (range) ->
+  setBufferRange: (range, options = {}) ->
     @deactivate()
     @activate()
-    @marker.setHeadBufferPosition(range.start)
-    @_updateSelection(newBufferPosition: range.end)
+
+    if options.reversed
+      start = range.end
+      end  = range.start
+    else
+      {start, end} = range
+
+    @marker.setHeadBufferPosition(start)
+    @_updateSelection(newBufferPosition: end)
 
   getBufferPosition: ->
     @marker.getHeadBufferPosition()

@@ -31,14 +31,16 @@ class Emacs
     @subscriptions.dispose()
     @editor = null
 
-  selectionRangeChanged: ({selection, newBufferRange} = {}) ->
+  selectionRangeChanged: (event = {}) ->
+    {selection, newBufferRange} = event
     return unless selection?
     return if selection.isEmpty()
     return if @destroyed
     return if selection.cursor.destroyed?
 
     mark = Mark.for(selection.cursor)
-    mark.setBufferRange(newBufferRange) unless mark.isActive()
+    unless mark.isActive()
+      mark.setBufferRange(newBufferRange, reversed: selection.isReversed())
 
   registerCommands: ->
     @subscriptions.add atom.commands.add @editorElement,

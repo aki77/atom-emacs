@@ -192,10 +192,12 @@ describe "Mark", ->
       expect(mark.isActive()).toBe(true)
 
   describe 'setBufferRange', ->
-    it 'keep selection range', ->
+    mark = []
+    beforeEach ->
       spyOn(_._, 'now').andCallFake -> window.now
       mark = Mark.for(cursor)
 
+    it 'keep selection range', ->
       EditorState.set(editor, 'aaa b[0]bb ccc')
       atom.commands.dispatch(editorElement, 'editor:select-word')
       expect(EditorState.get(editor)).toEqual('aaa (0)bbb[0] ccc')
@@ -216,3 +218,15 @@ describe "Mark", ->
 
       keydown('f', ctrl: true)
       expect(EditorState.get(editor)).toEqual('aaa (0)bbb [0]ccc')
+
+    it 'reversed', ->
+      EditorState.set(editor, 'aaa bbb[0] ccc')
+      atom.commands.dispatch(editorElement, 'core:select-left')
+      expect(EditorState.get(editor)).toEqual('aaa bb[0]b(0) ccc')
+
+      advanceClock(100)
+      expect(mark.isActive()).toBe(true)
+
+      atom.commands.dispatch(editorElement, 'core:select-left')
+      atom.commands.dispatch(editorElement, 'core:select-left')
+      expect(EditorState.get(editor)).toEqual('aaa [0]bbb(0) ccc')

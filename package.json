@@ -2,7 +2,7 @@
   "name": "emacs",
   "main": "./lib/main",
   "version": "0.8.0",
-  "description": "emacs keybindings.(Fork of atomic-emacs)",
+  "description": "Emacs-like experience in the Atom.(Fork of atomic-emacs)",
   "repository": "https://github.com/aki77/atom-emacs",
   "license": "MIT",
   "engines": {

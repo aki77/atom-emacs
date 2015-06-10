@@ -1,3 +1,6 @@
+## 0.9.0
+* Renaming emacs to emacs-plus
+
 ## 0.8.1
 * Add delete-indentation test
 * Replace 'emacs:transpose-chars' with editor:transpose

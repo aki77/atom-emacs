@@ -12,7 +12,7 @@
 # cursor is moved. If the buffer is edited, the mark is automatically
 # deactivated.
 class Mark
-  MARK_MODE_CLASS = 'emacs-mark-mode'
+  MARK_MODE_CLASS = 'emacs-plus-mark-mode'
 
   _marks = new WeakMap
 

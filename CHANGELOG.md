@@ -1,3 +1,6 @@
+## 0.8.0
+* Fix multiple cursors bug
+
 ## 0.7.3
 * Fix #1
 

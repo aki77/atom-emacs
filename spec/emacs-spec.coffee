@@ -383,7 +383,8 @@ describe 'Emacs', ->
     it "exchanges all cursors with their marks", ->
       EditorState.set(editor, "[0]..[1].")
       for cursor in editor.getCursors()
-        Mark.for(cursor)
+        mark = Mark.for(cursor)
+        mark.activate()
         cursor.moveRight()
       atom.commands.dispatch(editorElement, 'emacs:exchange-point-and-mark')
       expect(EditorState.get(editor)).toEqual("[0].(0).[1].(1)")

@@ -17,6 +17,7 @@ class Emacs
     @subscriptions.add(@editor.onDidChangeSelectionRange(_.debounce((event) =>
       @selectionRangeChanged(event)
     , 100)))
+    # @subscriptions.add(@editor.onDidChangeSelectionRange(@selectionRangeChanged))
 
     # need for kill-region
     @subscriptions.add(@editor.onDidInsertText( =>
@@ -31,7 +32,7 @@ class Emacs
     @subscriptions.dispose()
     @editor = null
 
-  selectionRangeChanged: (event = {}) ->
+  selectionRangeChanged: (event = {}) =>
     {selection, newBufferRange} = event
     return unless selection?
     return if selection.isEmpty()
@@ -40,7 +41,8 @@ class Emacs
 
     mark = Mark.for(selection.cursor)
     unless mark.isActive()
-      mark.setBufferRange(newBufferRange, reversed: selection.isReversed())
+      mark.activate()
+      #mark.setBufferRange(newBufferRange, reversed: selection.isReversed())
 
   registerCommands: ->
     @subscriptions.add atom.commands.add @editorElement,
@@ -76,12 +78,12 @@ class Emacs
     @globalEmacsState.thisCommand = KILL_COMMAND
     maintainClipboard = false
     @killSelectedText((selection) ->
-      selection.modifySelection ->
-        if selection.isEmpty()
+      if selection.isEmpty()
+        selection.modifySelection ->
           cursorTools = new CursorTools(selection.cursor)
           cursorTools.skipNonWordCharactersBackward()
           cursorTools.skipWordCharactersBackward()
-        selection.cut(maintainClipboard) unless selection.isEmpty()
+      selection.cut(maintainClipboard) unless selection.isEmpty()
       maintainClipboard = true
     , true)
 

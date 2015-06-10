@@ -24,10 +24,17 @@ class Mark
     mark
 
   constructor: (@cursor) ->
-    @editor = cursor.editor
-    @marker = @editor.markBufferPosition(cursor.getBufferPosition())
+    @editor = @cursor.editor
+
+    if @cursor.selection?.marker?
+      @marker = @cursor.selection.marker
+    else
+      @marker = @editor.markBufferPosition(@cursor.getBufferPosition())
+
     @active = false
     @updating = false
+    @destroyed = false
+    @markerTailBufferPosition = null
     @subscriptions = new CompositeDisposable()
     @subscriptions.add(@cursor.onDidDestroy(@_destroy))
 
@@ -54,6 +61,8 @@ class Mark
 
   activate: ->
     return if @active
+    @marker.plantTail()
+    @markerTailBufferPosition = @marker.getTailBufferPosition()
     @markerSubscriptions = new CompositeDisposable()
     @markerSubscriptions.add(@cursor.onDidChangePosition(@_updateSelection))
     @markerSubscriptions.add(@editor.getBuffer().onDidChange(@_onModified))
@@ -63,24 +72,33 @@ class Mark
 
   deactivate: ->
     if @active
+      @active = false
+      @markerTailBufferPosition = null
       @markerSubscriptions?.dispose()
       @markerSubscriptions = null
-      @active = false
-    @cursor.clearSelection()
+    @cursor.clearSelection() unless @marker.isDestroyed()
 
   isActive: ->
     @active
 
   exchange: ->
-    position = @marker.getHeadBufferPosition()
-    @set().activate()
-    @cursor.setBufferPosition(position)
+    return unless @isActive()
+    b = @marker.getTailBufferPosition()
+    a = @cursor.getBufferPosition()
+    @updating = true
+    @cursor.selection.setBufferRange([a, b], {
+      reversed: Point.min(a, b) is b
+      autoscroll: false
+    })
+    @markerTailBufferPosition = a
+    @updating = false
 
   _addClass: =>
     editorElement = atom.views.getView(@editor)
     editorElement.classList.add(MARK_MODE_CLASS)
-    new Disposable ->
-      editorElement.classList.remove(MARK_MODE_CLASS)
+    new Disposable =>
+      unless @editor.getCursors().some((cursor) -> Mark.for(cursor).isActive())
+        editorElement.classList.remove(MARK_MODE_CLASS)
 
   _addClickEventListener: =>
     callback = ({which}) =>
@@ -92,19 +110,25 @@ class Mark
       editorElement.removeEventListener('mousedown', callback)
 
   _destroy: =>
+    return if @destroyed
+    @destroyed = true
     @deactivate() if @active
-    @marker.destroy()
+    @marker.destroy() unless @marker.isDestroyed()
     @subscriptions?.dispose()
     @subscriptions = null
 
-  _updateSelection: ({newBufferPosition}) =>
+  _updateSelection: (event) =>
     # Updating the selection updates the cursor marker, so guard against the
     # nested invocation.
     return if @updating
+    {newBufferPosition} = event
     @updating = true
     try
       if @cursor.selection.isEmpty()
-        a = @marker.getHeadBufferPosition()
+        if @marker.getBufferRange().isEmpty()
+          a = @markerTailBufferPosition
+        else
+          a = @marker.getTailBufferPosition()
       else
         a = @cursor.selection.getTailBufferPosition()
 

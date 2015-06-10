@@ -1,7 +1,7 @@
 'atom-workspace':
   'ctrl-g': 'core:cancel'
   'ctrl-x k': 'core:close'
-  'ctrl-x ctrl-c': 'window:close'
+  'ctrl-x ctrl-c': 'application:quit'
   'ctrl-x ctrl-f': 'fuzzy-finder:toggle-file-finder'
   'ctrl-x 0': 'pane:close'
   'ctrl-x 1': 'pane:close-other-items'

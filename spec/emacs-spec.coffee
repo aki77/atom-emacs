@@ -431,3 +431,19 @@ describe 'Emacs', ->
       EditorState.set(editor, 'aaa b(0)bb[0] ccc')
       atom.commands.dispatch(editorElement, 'emacs:capitalize-word')
       expect(EditorState.get(editor)).toEqual('aaa b(0)Bb[0] ccc')
+
+  describe 'emacs:delete-indentation', ->
+    it "joins the current line with the previous one if at the start of the line", ->
+      EditorState.set(editor, "aa \n[0] bb\ncc")
+      atom.commands.dispatch(editorElement, 'emacs:delete-indentation')
+      expect(EditorState.get(editor)).toEqual("aa[0] bb\ncc")
+
+    it "does exactly the same thing if at the end of the line", ->
+      EditorState.set(editor, "aa \n bb[0]\ncc")
+      atom.commands.dispatch(editorElement, 'emacs:delete-indentation')
+      expect(EditorState.get(editor)).toEqual("aa[0] bb\ncc")
+
+    it "joins the two empty lines if they're both blank", ->
+      EditorState.set(editor, "aa\n\n[0]\nbb")
+      atom.commands.dispatch(editorElement, 'emacs:delete-indentation')
+      expect(EditorState.get(editor)).toEqual("aa\n[0]\nbb")

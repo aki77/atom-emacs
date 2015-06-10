@@ -3,7 +3,7 @@
 A fork of [atomic-emacs](https://atom.io/packages/atomic-emacs)
 
 Emacs-like experience in the Atom.
-[![Build Status](https://travis-ci.org/aki77/atom-emacs.svg)](https://travis-ci.org/aki77/atom-emacs)
+[![Build Status](https://travis-ci.org/aki77/atom-emacs-plus.svg)](https://travis-ci.org/aki77/atom-emacs-plus)
 
 ![](http://i.gyazo.com/6c9309e4608286d08c8b353b8011bbcb.gif)
 

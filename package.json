@@ -1,5 +1,5 @@
 {
-  "name": "emacs",
+  "name": "emacs-plus",
   "main": "./lib/main",
   "version": "0.8.1",
   "description": "Emacs-like experience in the Atom.(Fork of atomic-emacs)",

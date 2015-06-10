@@ -1,3 +1,7 @@
+## 0.8.1
+* Add delete-indentation test
+* Replace 'emacs:transpose-chars' with editor:transpose
+
 ## 0.8.0
 * Fix multiple cursors bug
 

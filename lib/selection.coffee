@@ -1,3 +1,4 @@
+# TODO: Refactor
 appendCopy = (reversed = false, maintainClipboard=false, fullLine=false) ->
   return if @isEmpty()
 

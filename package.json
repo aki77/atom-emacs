@@ -3,7 +3,7 @@
   "main": "./lib/main",
   "version": "0.8.1",
   "description": "Emacs-like experience in the Atom.(Fork of atomic-emacs)",
-  "repository": "https://github.com/aki77/atom-emacs",
+  "repository": "https://github.com/aki77/atom-emacs-plus",
   "license": "MIT",
   "engines": {
     "atom": ">=0.206.0 <2.0.0"

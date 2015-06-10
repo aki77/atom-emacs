@@ -113,7 +113,7 @@ describe "Mark", ->
 
       mark.set().activate()
       editorElement = atom.views.getView(editor)
-      expect(editorElement.classList.contains('emacs-mark-mode')).toBeTruthy()
+      expect(editorElement.classList.contains('emacs-plus-mark-mode')).toBeTruthy()
 
     it 'even if a cursor moves, keep selection.',  ->
       mark = Mark.for(cursor)
@@ -126,7 +126,7 @@ describe "Mark", ->
 
     it 'support merge selections', ->
       EditorState.set(editor, "[0]aaa 123\n[1]bbb 123\n[2]ccc 123")
-      atom.commands.dispatch(editorElement, 'emacs:set-mark')
+      atom.commands.dispatch(editorElement, 'emacs-plus:set-mark')
       editor.selectRight(3)
       expect(EditorState.get(editor)).toEqual("(0)aaa[0] 123\n(1)bbb[1] 123\n(2)ccc[2] 123")
       expect(editor.getCursors().length).toBe(3)
@@ -158,9 +158,9 @@ describe "Mark", ->
 
     mark.set().activate()
     editorElement = atom.views.getView(editor)
-    expect(editorElement.classList.contains('emacs-mark-mode')).toBeTruthy()
+    expect(editorElement.classList.contains('emacs-plus-mark-mode')).toBeTruthy()
     mark.deactivate()
-    expect(editorElement.classList.contains('emacs-mark-mode')).toBeFalsy()
+    expect(editorElement.classList.contains('emacs-plus-mark-mode')).toBeFalsy()
 
   describe "exchange", ->
     # it "exchanges the cursor and mark", ->

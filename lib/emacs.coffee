@@ -6,7 +6,7 @@ CursorTools = require './cursor-tools'
 
 module.exports =
 class Emacs
-  KILL_COMMAND = 'emacs:kill-region'
+  KILL_COMMAND = 'emacs-plus:kill-region'
 
   destroyed: false
 
@@ -46,27 +46,27 @@ class Emacs
 
   registerCommands: ->
     @subscriptions.add atom.commands.add @editorElement,
-      'emacs:append-next-kill': @appendNextKill
-      'emacs:backward-kill-word': @backwardKillWord
-      'emacs:backward-paragraph': @backwardParagraph
-      'emacs:backward-word': @backwardWord
-      'emacs:capitalize-word': @capitalizeWord
-      'emacs:copy': @copy
-      'emacs:delete-horizontal-space': @deleteHorizontalSpace
-      'emacs:delete-indentation': @deleteIndentation
-      'emacs:exchange-point-and-mark': @exchangePointAndMark
-      'emacs:forward-paragraph': @forwardParagraph
-      'emacs:forward-word': @forwardWord
-      'emacs:just-one-space': @justOneSpace
-      'emacs:kill-line': @killLine
-      'emacs:kill-region': @killRegion
-      'emacs:kill-whole-line': @killWholeLine
-      'emacs:kill-word': @killWord
-      'emacs:open-line': @openLine
-      'emacs:recenter-top-bottom': @recenterTopBottom
-      'emacs:set-mark': @setMark
-      'emacs:transpose-lines': @transposeLines
-      'emacs:transpose-words': @transposeWords
+      'emacs-plus:append-next-kill': @appendNextKill
+      'emacs-plus:backward-kill-word': @backwardKillWord
+      'emacs-plus:backward-paragraph': @backwardParagraph
+      'emacs-plus:backward-word': @backwardWord
+      'emacs-plus:capitalize-word': @capitalizeWord
+      'emacs-plus:copy': @copy
+      'emacs-plus:delete-horizontal-space': @deleteHorizontalSpace
+      'emacs-plus:delete-indentation': @deleteIndentation
+      'emacs-plus:exchange-point-and-mark': @exchangePointAndMark
+      'emacs-plus:forward-paragraph': @forwardParagraph
+      'emacs-plus:forward-word': @forwardWord
+      'emacs-plus:just-one-space': @justOneSpace
+      'emacs-plus:kill-line': @killLine
+      'emacs-plus:kill-region': @killRegion
+      'emacs-plus:kill-whole-line': @killWholeLine
+      'emacs-plus:kill-word': @killWord
+      'emacs-plus:open-line': @openLine
+      'emacs-plus:recenter-top-bottom': @recenterTopBottom
+      'emacs-plus:set-mark': @setMark
+      'emacs-plus:transpose-lines': @transposeLines
+      'emacs-plus:transpose-words': @transposeWords
       'core:cancel': @deactivateCursors
 
   appendNextKill: =>

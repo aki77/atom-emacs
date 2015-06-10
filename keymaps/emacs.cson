@@ -27,7 +27,7 @@
   'ctrl-j': 'editor:newline'
   'ctrl-/': 'core:undo'
   'ctrl-o': 'emacs:open-line'
-  'ctrl-t': 'emacs:transpose-chars'
+  'ctrl-t': 'editor:transpose'
   'ctrl-_': 'core:undo'
   'ctrl-space': 'emacs:set-mark'
   'ctrl-x ctrl-s': 'core:save'

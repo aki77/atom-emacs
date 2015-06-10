@@ -65,7 +65,6 @@ class Emacs
       'emacs:open-line': @openLine
       'emacs:recenter-top-bottom': @recenterTopBottom
       'emacs:set-mark': @setMark
-      'emacs:transpose-chars': @transposeChars
       'emacs:transpose-lines': @transposeLines
       'emacs:transpose-words': @transposeWords
       'core:cancel': @deactivateCursors
@@ -186,10 +185,6 @@ class Emacs
   setMark: =>
     for cursor in @editor.getCursors()
       Mark.for(cursor).set().activate()
-
-  transposeChars: =>
-    @editor.transpose()
-    editor.moveRight()
 
   transposeLines: =>
     cursor = @editor.getLastCursor()

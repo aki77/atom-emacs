@@ -15,6 +15,7 @@ Emacs-like experience in the Atom.
 
 ## Note
 * Please use [clipboard-plus](https://atom.io/packages/clipboard-plus) instead of kill-ring.
+* Disables keymap in conflicting package using [disable-keybindings](https://atom.io/packages/disable-keybindings).
 
 ## Keymap
 * [emacs.cson](https://github.com/aki77/atom-emacs-plus/blob/master/keymaps/emacs.cson)

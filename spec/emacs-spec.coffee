@@ -3,7 +3,7 @@ EditorState = require './editor-state'
 {keydown, getEditorElement} = require './spec-helper'
 
 describe 'Emacs', ->
-  [workspaceElement, activationPromise, editor, editorElement] = []
+  [workspaceElement, editor, editorElement] = []
 
   beforeEach ->
     workspaceElement = atom.views.getView(atom.workspace)
@@ -13,6 +13,19 @@ describe 'Emacs', ->
       getEditorElement (element) ->
         editorElement = element
         editor = editorElement.getModel()
+
+
+  describe 'activate', ->
+    it "puts the editor in emacs-plus class", ->
+      expect(editorElement.classList.contains('emacs-plus')).toBe(true)
+
+  # describe 'deactivate', ->
+  #   beforeEach ->
+  #     atom.packages.deactivatePackage('emacs-plus')
+  #
+  #   it "removes the emacs-plus classe from the editor", ->
+  #     expect(editor.isAlive()).toBe(true)
+  #     expect(editorElement.classList.contains('emacs-plus')).toBe(false)
 
   describe 'emacs-plus:transpose-words', ->
     it 'transposes the current word with the one after it', ->
@@ -204,6 +217,7 @@ describe 'Emacs', ->
       expect(EditorState.get(editor)).toEqual("aaa [0]b [1]c ddd")
 
     it 'appending kills', ->
+
       EditorState.set(editor, 'aaa bbb ccc[0]')
       atom.commands.dispatch(editorElement, 'emacs-plus:backward-kill-word')
       atom.commands.dispatch(editorElement, 'emacs-plus:backward-kill-word')

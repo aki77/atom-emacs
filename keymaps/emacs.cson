@@ -11,7 +11,7 @@
   'ctrl-x o': 'window:focus-next-pane'
   'alt-x': 'command-palette:toggle'
 
-'atom-text-editor:not([mini])':
+'atom-text-editor.emacs-plus:not([mini])':
   'ctrl-f': 'core:move-right'
   'ctrl-b': 'core:move-left'
   'ctrl-n': 'core:move-down'
@@ -58,8 +58,9 @@
   'alt-space': 'emacs-plus:just-one-space'
   'alt-{': 'emacs-plus:backward-paragraph'
   'alt-}': 'emacs-plus:forward-paragraph'
+  'alt-g g': 'go-to-line:toggle'
 
-'atom-text-editor.emacs-plus-mark-mode:not([mini])':
+'atom-text-editor.emacs-plus.mark-mode:not([mini])':
   'ctrl-a': 'editor:select-to-beginning-of-line'
   'ctrl-e': 'editor:select-to-end-of-line'
   'ctrl-f': 'core:select-right'
@@ -85,25 +86,5 @@
   'ctrl-s': 'find-and-replace:find-next'
   'ctrl-r': 'find-and-replace:find-previous'
 
-'.go-to-line atom-text-editor[mini] input':
-  'ctrl-g': 'core:cancel'
-
 '.tree-view-dialog atom-text-editor[mini]':
-  'ctrl-g': 'core:cancel'
-
-'atom-panel.left, atom-panel.right':
-  'ctrl-g': 'tool-panel:unfocus'
-
-'.platform-win32':
-  'alt-g g': 'go-to-line:toggle'
-  'ctrl-g': 'core:cancel'
-
-'.platform-win32 .go-to-line atom-text-editor[mini] input':
-  'ctrl-g': 'core:cancel'
-
-'.platform-darwin':
-  'alt-g g': 'go-to-line:toggle'
-  'ctrl-g': 'core:cancel'
-
-'.platform-darwin .go-to-line atom-text-editor[mini] input':
   'ctrl-g': 'core:cancel'

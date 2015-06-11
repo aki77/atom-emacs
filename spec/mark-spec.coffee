@@ -113,7 +113,7 @@ describe "Mark", ->
 
       mark.set().activate()
       editorElement = atom.views.getView(editor)
-      expect(editorElement.classList.contains('emacs-plus-mark-mode')).toBeTruthy()
+      expect(editorElement.classList.contains('mark-mode')).toBeTruthy()
 
     it 'even if a cursor moves, keep selection.',  ->
       mark = Mark.for(cursor)
@@ -158,9 +158,9 @@ describe "Mark", ->
 
     mark.set().activate()
     editorElement = atom.views.getView(editor)
-    expect(editorElement.classList.contains('emacs-plus-mark-mode')).toBeTruthy()
+    expect(editorElement.classList.contains('mark-mode')).toBeTruthy()
     mark.deactivate()
-    expect(editorElement.classList.contains('emacs-plus-mark-mode')).toBeFalsy()
+    expect(editorElement.classList.contains('mark-mode')).toBeFalsy()
 
   describe "exchange", ->
     # it "exchanges the cursor and mark", ->

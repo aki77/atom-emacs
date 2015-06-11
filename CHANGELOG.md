@@ -1,3 +1,6 @@
+## 0.9.1
+* Clean up keymap
+
 ## 0.9.0
 * Renaming emacs to emacs-plus
 

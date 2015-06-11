@@ -13,6 +13,7 @@ class Emacs
   constructor: (@editor, @globalEmacsState) ->
     @editorElement = atom.views.getView(editor)
     @subscriptions = new CompositeDisposable
+    @subscriptions.add(@addClass())
     @subscriptions.add(@editor.onDidDestroy(@destroy))
     @subscriptions.add(@editor.onDidChangeSelectionRange(_.debounce((event) =>
       @selectionRangeChanged(event)
@@ -68,6 +69,12 @@ class Emacs
       'emacs-plus:transpose-lines': @transposeLines
       'emacs-plus:transpose-words': @transposeWords
       'core:cancel': @deactivateCursors
+
+  addClass: ->
+    className = 'emacs-plus'
+    @editorElement.classList.add(className)
+    new Disposable =>
+      @editorElement.classList.remove(className) if @editor.isAlive()
 
   appendNextKill: =>
     @globalEmacsState.thisCommand = KILL_COMMAND

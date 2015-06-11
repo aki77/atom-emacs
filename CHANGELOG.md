@@ -1,3 +1,6 @@
+## 0.9.2
+* Update keymap
+
 ## 0.9.1
 * Clean up keymap
 

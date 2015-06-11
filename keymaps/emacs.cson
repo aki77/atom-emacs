@@ -3,6 +3,7 @@
   'ctrl-x k': 'core:close'
   'ctrl-x ctrl-c': 'application:quit'
   'ctrl-x ctrl-f': 'fuzzy-finder:toggle-file-finder'
+  'ctrl-x ctrl-j': 'tree-view:reveal-active-file'
   'ctrl-x 0': 'pane:close'
   'ctrl-x 1': 'pane:close-other-items'
   'ctrl-x 2': 'pane:split-down'
@@ -50,9 +51,12 @@
   'alt-<': 'core:move-to-top'
   'alt->': 'core:move-to-bottom'
   'alt-m': 'editor:move-to-first-character-of-line'
+  'alt-/': 'autocomplete-plus:activate'
   'alt-.': 'symbols-view:toggle-file-symbols'
   'alt-^': 'emacs-plus:delete-indentation'
   'alt-\\': 'emacs-plus:delete-horizontal-space'
+  'alt-left': 'emacs-plus:backward-word'
+  'alt-right': 'emacs-plus:forward-word'
   'alt-backspace': 'emacs-plus:backward-kill-word'
   'alt-delete': 'emacs-plus:backward-kill-word'
   'alt-space': 'emacs-plus:just-one-space'
@@ -86,5 +90,19 @@
   'ctrl-s': 'find-and-replace:find-next'
   'ctrl-r': 'find-and-replace:find-previous'
 
-'.tree-view-dialog atom-text-editor[mini]':
-  'ctrl-g': 'core:cancel'
+# autocomplete-plus
+'atom-text-editor:not(mini).emacs-plus.autocomplete-active':
+  'enter': 'autocomplete-plus:confirm'
+  'ctrl-m': 'autocomplete-plus:confirm'
+  'ctrl-g': 'autocomplete-plus:cancel'
+
+# tree-view
+'.tree-view':
+  '^': 'tree-view:collapse-directory'
+  'n': 'core:move-down'
+  'p': 'core:move-up'
+  'q': 'tree-view:toggle'
+  'shift-c': 'tree-view:duplicate'
+  'shift-e': 'tree-view:recursive-expand-directory'
+  'shift-r': 'tree-view:rename'
+  'shift-d': 'tree-view:remove'

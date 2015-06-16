@@ -49,15 +49,11 @@ class Emacs
     @subscriptions.add atom.commands.add @editorElement,
       'emacs-plus:append-next-kill': @appendNextKill
       'emacs-plus:backward-kill-word': @backwardKillWord
-      'emacs-plus:backward-paragraph': @backwardParagraph
-      'emacs-plus:backward-word': @backwardWord
       'emacs-plus:capitalize-word': @capitalizeWord
       'emacs-plus:copy': @copy
       'emacs-plus:delete-horizontal-space': @deleteHorizontalSpace
       'emacs-plus:delete-indentation': @deleteIndentation
       'emacs-plus:exchange-point-and-mark': @exchangePointAndMark
-      'emacs-plus:forward-paragraph': @forwardParagraph
-      'emacs-plus:forward-word': @forwardWord
       'emacs-plus:just-one-space': @justOneSpace
       'emacs-plus:kill-line': @killLine
       'emacs-plus:kill-region': @killRegion
@@ -84,20 +80,10 @@ class Emacs
     @globalEmacsState.thisCommand = KILL_COMMAND
     maintainClipboard = false
     @killSelectedText((selection) ->
-      if selection.isEmpty()
-        selection.modifySelection ->
-          cursorTools = new CursorTools(selection.cursor)
-          cursorTools.skipNonWordCharactersBackward()
-          cursorTools.skipWordCharactersBackward()
+      selection.selectToBeginningOfWord() if selection.isEmpty()
       selection.cut(maintainClipboard) unless selection.isEmpty()
       maintainClipboard = true
     , true)
-
-  backwardWord: =>
-    @editor.moveCursors (cursor) ->
-      tools = new CursorTools(cursor)
-      tools.skipNonWordCharactersBackward()
-      tools.skipWordCharactersBackward()
 
   capitalizeWord: =>
     @editor.replaceSelectedText selectWordIfEmpty: true, (text) ->
@@ -125,12 +111,6 @@ class Emacs
   exchangePointAndMark: =>
     @editor.moveCursors (cursor) ->
       Mark.for(cursor).exchange()
-
-  forwardWord: =>
-    @editor.moveCursors (cursor) ->
-      tools = new CursorTools(cursor)
-      tools.skipNonWordCharactersForward()
-      tools.skipWordCharactersForward()
 
   justOneSpace: =>
     for cursor in @editor.getCursors()
@@ -170,12 +150,8 @@ class Emacs
     @globalEmacsState.thisCommand = KILL_COMMAND
     maintainClipboard = false
     @killSelectedText (selection) ->
-      selection.modifySelection ->
-        if selection.isEmpty()
-          cursorTools = new CursorTools(selection.cursor)
-          cursorTools.skipNonWordCharactersForward()
-          cursorTools.skipWordCharactersForward()
-        selection.cut(maintainClipboard)
+      selection.selectToEndOfWord() if selection.isEmpty()
+      selection.cut(maintainClipboard) unless selection.isEmpty()
       maintainClipboard = true
 
   openLine: =>
@@ -228,46 +204,6 @@ class Emacs
           @editor.setTextInBufferRange([word2Pos, word2Pos], word1)
           @editor.setTextInBufferRange([word1Pos, word1Pos], word2)
         cursor.setBufferPosition(cursor.getBufferPosition())
-
-  backwardParagraph: =>
-    for cursor in @editor.getCursors()
-      currentRow = cursor.getBufferPosition().row
-
-      break if currentRow <= 0
-
-      cursorTools = new CursorTools(cursor)
-      blankRow = cursorTools.locateBackward(/^\s+$|^\s*$/).start.row
-
-      while currentRow == blankRow
-        break if currentRow <= 0
-
-        cursor.moveUp()
-
-        currentRow = cursor.getBufferPosition().row
-        blankRange = cursorTools.locateBackward(/^\s+$|^\s*$/)
-        blankRow = if blankRange then blankRange.start.row else 0
-
-      rowCount = currentRow - blankRow
-      cursor.moveUp(rowCount)
-
-  forwardParagraph: =>
-    lineCount = @editor.buffer.getLineCount() - 1
-
-    for cursor in @editor.getCursors()
-      currentRow = cursor.getBufferPosition().row
-      break if currentRow >= lineCount
-
-      cursorTools = new CursorTools(cursor)
-      blankRow = cursorTools.locateForward(/^\s+$|^\s*$/).start.row
-
-      while currentRow == blankRow
-        cursor.moveDown()
-
-        currentRow = cursor.getBufferPosition().row
-        blankRow = cursorTools.locateForward(/^\s+$|^\s*$/).start.row
-
-      rowCount = blankRow - currentRow
-      cursor.moveDown(rowCount)
 
   # private
   killSelectedText: (fn, reversed = false) ->

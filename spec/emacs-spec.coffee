@@ -153,11 +153,6 @@ describe 'Emacs', ->
       atom.commands.dispatch(editorElement, 'emacs-plus:kill-word')
       expect(EditorState.get(editor)).toEqual("aaa bbb ccc[0]")
 
-    it "deletes the trailing space in front of the cursor if at the end of the buffer", ->
-      EditorState.set(editor, "aaa bbb ccc [0] ")
-      atom.commands.dispatch(editorElement, 'emacs-plus:kill-word')
-      expect(EditorState.get(editor)).toEqual("aaa bbb ccc [0]")
-
     it "deletes any selected text", ->
       EditorState.set(editor, "aaa b(0)b[0]b ccc")
       atom.commands.dispatch(editorElement, 'emacs-plus:kill-word')
@@ -279,120 +274,6 @@ describe 'Emacs', ->
       atom.commands.dispatch(editorElement, 'core:cancel')
       expect(mark0.isActive()).toBe(false)
 
-  describe "emacs-plus:backward-word", ->
-    it "moves all cursors to the beginning of the current word if in a word", ->
-      EditorState.set(editor, "aa b[0]b c[1]c")
-      atom.commands.dispatch(editorElement, 'emacs-plus:backward-word')
-      expect(EditorState.get(editor)).toEqual("aa [0]bb [1]cc")
-
-    it "moves to the beginning of the previous word if between words", ->
-      EditorState.set(editor, "aa bb [0] cc")
-      atom.commands.dispatch(editorElement, 'emacs-plus:backward-word')
-      expect(EditorState.get(editor)).toEqual("aa [0]bb  cc")
-
-    it "moves to the beginning of the previous word if at the start of a word", ->
-      EditorState.set(editor, "aa bb [0]cc")
-      atom.commands.dispatch(editorElement, 'emacs-plus:backward-word')
-      expect(EditorState.get(editor)).toEqual("aa [0]bb cc")
-
-    it "moves to the beginning of the buffer if at the start of the first word", ->
-      EditorState.set(editor, " [0]aa bb")
-      atom.commands.dispatch(editorElement, 'emacs-plus:backward-word')
-      expect(EditorState.get(editor)).toEqual("[0] aa bb")
-
-    it "moves to the beginning of the buffer if before the start of the first word", ->
-      EditorState.set(editor, " [0] aa bb")
-      atom.commands.dispatch(editorElement, 'emacs-plus:backward-word')
-      expect(EditorState.get(editor)).toEqual("[0]  aa bb")
-
-  describe "emacs-plus:forward-word", ->
-    it "moves all cursors to the end of the current word if in a word", ->
-      EditorState.set(editor, "a[0]a b[1]b cc")
-      atom.commands.dispatch(editorElement, 'emacs-plus:forward-word')
-      expect(EditorState.get(editor)).toEqual("aa[0] bb[1] cc")
-
-    it "moves to the end of the next word if between words", ->
-      EditorState.set(editor, "aa [0] bb cc")
-      atom.commands.dispatch(editorElement, 'emacs-plus:forward-word')
-      expect(EditorState.get(editor)).toEqual("aa  bb[0] cc")
-
-    it "moves to the end of the next word if at the end of a word", ->
-      EditorState.set(editor, "aa[0] bb cc")
-      atom.commands.dispatch(editorElement, 'emacs-plus:forward-word')
-      expect(EditorState.get(editor)).toEqual("aa bb[0] cc")
-
-    it "moves to the end of the buffer if at the end of the last word", ->
-      EditorState.set(editor, "aa bb[0] ")
-      atom.commands.dispatch(editorElement, 'emacs-plus:forward-word')
-      expect(EditorState.get(editor)).toEqual("aa bb [0]")
-
-    it "moves to the end of the buffer if past the end of the last word", ->
-      EditorState.set(editor, "aa bb [0] ")
-      atom.commands.dispatch(editorElement, 'emacs-plus:forward-word')
-      expect(EditorState.get(editor)).toEqual("aa bb  [0]")
-
-  describe "emacs-plus:backward-paragraph", ->
-    it "moves the cursor backwards to an empty line", ->
-      EditorState.set(editor, "aaaaa\n\nbbbbbb")
-      editor.moveToBottom()
-      atom.commands.dispatch(editorElement, 'emacs-plus:backward-paragraph')
-      expect(editor.getCursorBufferPosition().row).toEqual(1)
-
-    it "moves the cursor backwards to a line that only contains spaces", ->
-      EditorState.set(editor, "aaaaa\n                    \nbbbbbb")
-      editor.moveToBottom()
-      atom.commands.dispatch(editorElement, 'emacs-plus:backward-paragraph')
-      expect(editor.getCursorBufferPosition().row).toEqual(1)
-
-    it "moves the cursor backwards to a line that only contains tabs", ->
-      EditorState.set(editor, "aaaaa\n\t\t\t\nbbbbbb")
-      editor.moveToBottom()
-      atom.commands.dispatch(editorElement, 'emacs-plus:backward-paragraph')
-      expect(editor.getCursorBufferPosition().row).toEqual(1)
-
-    it "moves the cursor backwards to a line that only contains whitespaces", ->
-      EditorState.set(editor, "aaaaa\n\t  \t\t    \nbbbbbb")
-      editor.moveToBottom()
-      atom.commands.dispatch(editorElement, 'emacs-plus:backward-paragraph')
-      expect(editor.getCursorBufferPosition().row).toEqual(1)
-
-    it "does nothing when the cursor is at the first line of the buffer", ->
-      EditorState.set(editor, "aaaaa\n\t  \t\t    \nbbbbbb")
-      editor.moveToTop()
-      atom.commands.dispatch(editorElement, 'emacs-plus:backward-paragraph')
-      expect(editor.getCursorBufferPosition().row).toEqual(0)
-
-  describe "emacs-plus:forward-paragraph", ->
-    it "moves the cursor forward to an empty line", ->
-      EditorState.set(editor, "aaaaa\n\nbbbbbb")
-      editor.moveToTop()
-      atom.commands.dispatch(editorElement, 'emacs-plus:forward-paragraph')
-      expect(editor.getCursorBufferPosition().row).toEqual(1)
-
-    it "moves the cursor forward to a line that only contains spaces", ->
-      EditorState.set(editor, "aaaaa\n                    \nbbbbbb")
-      editor.moveToTop()
-      atom.commands.dispatch(editorElement, 'emacs-plus:forward-paragraph')
-      expect(editor.getCursorBufferPosition().row).toEqual(1)
-
-    it "moves the cursor forward to a line that only contains tabs", ->
-      EditorState.set(editor, "aaaaa\n\t\t\t\nbbbbbb")
-      editor.moveToTop()
-      atom.commands.dispatch(editorElement, 'emacs-plus:forward-paragraph')
-      expect(editor.getCursorBufferPosition().row).toEqual(1)
-
-    it "moves the cursor forward to a line that only contains whitespaces", ->
-      EditorState.set(editor, "aaaaa\n\t  \t\t    \nbbbbbb")
-      editor.moveToTop()
-      atom.commands.dispatch(editorElement, 'emacs-plus:forward-paragraph')
-      expect(editor.getCursorBufferPosition().row).toEqual(1)
-
-    it "does nothing when the cursor is at the last line of the buffer", ->
-      EditorState.set(editor, "aaaaa\n\t  \t\t    \nbbbbbb")
-      editor.moveToBottom()
-      atom.commands.dispatch(editorElement, 'emacs-plus:forward-paragraph')
-      expect(editor.getCursorBufferPosition().row).toEqual(2)
-
   describe "emacs-plus:exchange-point-and-mark", ->
     it "exchanges all cursors with their marks", ->
       EditorState.set(editor, "[0]..[1].")
@@ -429,7 +310,7 @@ describe 'Emacs', ->
     it 'appending kills', ->
       EditorState.set(editor, '[0]aaa bbb ccc ddd')
       atom.commands.dispatch(editorElement, 'emacs-plus:kill-word')
-      atom.commands.dispatch(editorElement, 'emacs-plus:forward-word')
+      atom.commands.dispatch(editorElement, 'editor:move-to-end-of-word')
       atom.commands.dispatch(editorElement, 'emacs-plus:append-next-kill')
       atom.commands.dispatch(editorElement, 'emacs-plus:kill-word')
       expect(atom.clipboard.read()).toBe 'aaa ccc'

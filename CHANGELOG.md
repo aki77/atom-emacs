@@ -1,3 +1,6 @@
+## 0.9.4
+* Update keymap
+
 ## 0.9.3
 * Use core Atom functionality
 

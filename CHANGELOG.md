@@ -1,3 +1,6 @@
+## 0.9.5
+* Fix #2
+
 ## 0.9.4
 * Update keymap
 

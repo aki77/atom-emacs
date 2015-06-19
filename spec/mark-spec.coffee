@@ -89,9 +89,9 @@ describe "Mark", ->
       cursor.setBufferPosition([0, 2])
       expect(EditorState.get(editor)).toEqual(".(0).[0].")
 
-      editor.setTextInBufferRange([[0, 0], [0, 1]], 'x')
+      editor.setTextInBufferRange([[0, 1], [0, 2]], 'x')
       expect(mark.isActive()).toBe(false)
-      expect(EditorState.get(editor)).toEqual("x.[0].")
+      expect(EditorState.get(editor)).toEqual(".x[0].")
       expect(cursor.selection.isEmpty()).toBe(true)
 
     it "doesn't deactive the mark if changes are indents", ->
@@ -133,6 +133,17 @@ describe "Mark", ->
       editor.selectDown()
       expect(EditorState.get(editor)).toEqual("(0)aaa 123\nbbb 123\nccc 123[0]")
       expect(editor.getCursors().length).toBe(1)
+
+    it 'support multiple cursors', ->
+      EditorState.set(editor, "[0]aaa\n[1]aaa\n[2]aaa")
+      atom.commands.dispatch(editorElement, 'emacs-plus:set-mark')
+      editor.selectRight(3)
+      expect(EditorState.get(editor)).toEqual("(0)aaa[0]\n(1)aaa[1]\n(2)aaa[2]")
+
+      editor.upperCase()
+      expect(EditorState.get(editor)).toEqual("(0)AAA[0]\n(1)AAA[1]\n(2)AAA[2]")
+      editor.lowerCase()
+      expect(EditorState.get(editor)).toEqual("(0)aaa[0]\n(1)aaa[1]\n(2)aaa[2]")
 
   describe "deactivate", ->
     it "deactivates the mark", ->

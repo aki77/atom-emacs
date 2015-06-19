@@ -141,6 +141,10 @@ class Mark
       @updating = false
 
   _onModified: (event) =>
+    # necessary for multiple cursors
+    {newRange} = event
+    return unless newRange.containsPoint(@cursor.getBufferPosition())
+
     return if @_isIndent(event) or @_isOutdent(event)
     @deactivate()
 

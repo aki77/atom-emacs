@@ -43,7 +43,6 @@ class Emacs
     mark = Mark.for(selection.cursor)
     unless mark.isActive()
       mark.activate()
-      #mark.setBufferRange(newBufferRange, reversed: selection.isReversed())
 
   registerCommands: ->
     @subscriptions.add atom.commands.add @editorElement,

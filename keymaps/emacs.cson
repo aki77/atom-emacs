@@ -1,6 +1,7 @@
 'body':
   'alt-v': 'core:page-up'
   'alt-w': 'core:copy'
+  'ctrl-d': 'core:delete'
   'ctrl-g': 'core:cancel'
   'ctrl-h': 'core:backspace'
   'ctrl-m': 'core:confirm'
@@ -37,6 +38,7 @@
   'ctrl-alt-/': 'core:redo'
   'ctrl-x ctrl-l': 'editor:lower-case'
   'ctrl-x ctrl-u': 'editor:upper-case'
+  'ctrl-x u': 'core:undo'
 
 'atom-text-editor.emacs-plus:not([mini])':
   'alt-.': 'symbols-view:toggle-file-symbols'

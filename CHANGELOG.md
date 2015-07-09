@@ -1,3 +1,6 @@
+## 0.9.7
+* Refactor
+
 ## 0.9.6
 * Update keymap (#3)
 

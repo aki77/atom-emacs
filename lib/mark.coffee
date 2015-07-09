@@ -116,6 +116,9 @@ class Mark
     @marker.destroy() unless @marker.isDestroyed()
     @subscriptions?.dispose()
     @subscriptions = null
+    @editor = null
+    @cursor = null
+    @marker = null
 
   _updateSelection: (event) =>
     # Updating the selection updates the cursor marker, so guard against the

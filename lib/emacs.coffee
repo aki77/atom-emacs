@@ -31,7 +31,9 @@ class Emacs
     return if @destroyed
     @destroyed = true
     @subscriptions.dispose()
+    @subscriptions = null
     @editor = null
+    @editorElement = null
 
   selectionRangeChanged: (event = {}) =>
     {selection, newBufferRange} = event

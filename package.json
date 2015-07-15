@@ -1,7 +1,7 @@
 {
   "name": "emacs-plus",
   "main": "./lib/main",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "description": "Emacs-like experience in the Atom.(Fork of atomic-emacs)",
   "repository": "https://github.com/aki77/atom-emacs-plus",
   "license": "MIT",

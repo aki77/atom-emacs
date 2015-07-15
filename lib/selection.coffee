@@ -13,31 +13,29 @@ appendCopy = (reversed = false, maintainClipboard=false, fullLine=false) ->
   precedingText = @editor.getTextInRange([[start.row, 0], start])
   startLevel = @editor.indentLevelForLine(precedingText)
 
-  appendTo = (_text, _indentBasis, _fullLine) ->
+  appendTo = (_text, _indentBasis) ->
     if reversed
       _text = selectionText + _text
       _indentBasis = startLevel
     else
       _text = _text + selectionText
 
-    _fullLine = _fullLine or fullLine
-
     {
       text: _text
       indentBasis: _indentBasis
-      fullLine: _fullLine
+      fullLine: false
     }
 
   if maintainClipboard
     index = @editor.getSelections().indexOf(this)
     {text: _text, indentBasis: _indentBasis, fullLine: _fullLine} = metadata.selections[index]
-    selectionData = appendTo(_text, _indentBasis, _fullLine)
+    selectionData = appendTo(_text, _indentBasis)
     newMetadata = metadata
     newMetadata.selections[index] = selectionData
     newText = newMetadata.selections.map((selection) -> selection.text).join("\n")
   else
-    {_indentBasis, _fullLine} = metadata
-    {text: newText, indentBasis, fullLine} = appendTo(clipboardText, _indentBasis, _fullLine)
+    {indentBasis: _indentBasis, fullLine: _fullLine} = metadata
+    {text: newText, indentBasis, fullLine} = appendTo(clipboardText, _indentBasis)
     newMetadata = {indentBasis, fullLine}
 
   # support clipboard-plus

@@ -342,3 +342,20 @@ describe 'Emacs', ->
       EditorState.set(editor, "aa\n\n[0]\nbb")
       atom.commands.dispatch(editorElement, 'emacs-plus:delete-indentation')
       expect(EditorState.get(editor)).toEqual("aa\n[0]\nbb")
+
+  describe 'emacs-plus:kill-line', ->
+    it 'inside a line', ->
+      EditorState.set(editor, "aa\nb[0]b\ncc")
+      atom.commands.dispatch(editorElement, 'emacs-plus:kill-line')
+      expect(EditorState.get(editor)).toEqual("aa\nb[0]\ncc")
+
+    it 'appending kills', ->
+      EditorState.set(editor, "aa\n[0]bb\ncc\ndd")
+
+      for n in [0...4]
+        atom.commands.dispatch(editorElement, 'emacs-plus:kill-line')
+
+      {text, metadata} = atom.clipboard.readWithMetadata()
+      expect(text).toBe "bb\ncc\n"
+      expect(metadata.fullLine).toBe false
+      expect(metadata.indentBasis).toBe 0

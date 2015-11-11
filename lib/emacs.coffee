@@ -139,12 +139,10 @@ class Emacs
     @globalEmacsState.thisCommand = KILL_COMMAND
     maintainClipboard = false
     @killSelectedText (selection) ->
-      fullLine = false
       selection.selectToEndOfLine() if selection.isEmpty()
       if selection.isEmpty()
-        selection.selectLine()
-        fullLine = true
-      selection.cut(maintainClipboard, fullLine)
+        selection.selectRight()
+      selection.cut(maintainClipboard, false)
       maintainClipboard = true
 
   killWord: =>

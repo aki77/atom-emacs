@@ -1,3 +1,6 @@
+## 0.9.9
+* Fix kill-line bug(#7)
+
 ## 0.9.8
 * Fix #4
 

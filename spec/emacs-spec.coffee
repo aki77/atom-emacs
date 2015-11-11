@@ -349,6 +349,13 @@ describe 'Emacs', ->
       atom.commands.dispatch(editorElement, 'emacs-plus:kill-line')
       expect(EditorState.get(editor)).toEqual("aa\nb[0]\ncc")
 
+    it 'end of line', ->
+      EditorState.set(editor, "aa\nbb[0]\ncc")
+      atom.commands.dispatch(editorElement, 'emacs-plus:kill-line')
+      expect(EditorState.get(editor)).toEqual("aa\nbb[0]cc")
+      atom.commands.dispatch(editorElement, 'core:paste')
+      expect(EditorState.get(editor)).toEqual("aa\nbb\n[0]cc")
+
     it 'appending kills', ->
       EditorState.set(editor, "aa\n[0]bb\ncc\ndd")
 

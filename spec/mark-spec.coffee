@@ -7,6 +7,9 @@ describe "Mark", ->
   [editor, editorElement, cursor] = []
 
   beforeEach ->
+    workspaceElement = atom.views.getView(atom.workspace)
+    jasmine.attachToDOM(workspaceElement)
+
     spyOn(_._, 'now').andCallFake -> window.now
     getEditorElement (element) ->
       editorElement = element

@@ -1,3 +1,6 @@
+## 0.9.10
+* Update keymaps (#11)
+
 ## 0.9.9
 * Fix kill-line bug(#7)
 

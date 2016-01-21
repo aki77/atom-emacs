@@ -1,3 +1,6 @@
+## 0.9.11
+* Fix deprecated calls
+
 ## 0.9.10
 * Update keymaps (#11)
 

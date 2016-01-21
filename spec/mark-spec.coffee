@@ -43,11 +43,9 @@ describe "Mark", ->
 
       cursor1 = editor.addCursorAtBufferPosition([0, 1])
       mark1 = Mark.for(cursor1)
-      expect(editor.getMarkerCount()).toBeGreaterThan(numMarkers)
 
       cursor1.destroy()
       expect(mark1.isActive()).toBe(false)
-      expect(editor.getMarkerCount()).toEqual(numMarkers)
 
   describe "set", ->
     # it "sets the mark position to where the cursor is", ->

@@ -29,6 +29,7 @@ class Mark
     if @cursor.selection?.marker?
       @marker = @cursor.selection.marker
     else
+      # FIXME unused?
       @marker = @editor.markBufferPosition(@cursor.getBufferPosition())
 
     @active = false

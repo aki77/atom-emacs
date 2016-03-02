@@ -1,3 +1,6 @@
+## 0.9.12
+* Bind C-g to consolidate selections(@itiut)
+
 ## 0.9.11
 * Fix deprecated calls
 

@@ -30,6 +30,7 @@
   'ctrl-b': 'core:move-left'
   'ctrl-e': 'editor:move-to-end-of-screen-line'
   'ctrl-f': 'core:move-right'
+  'ctrl-g': 'editor:consolidate-selections'
   'ctrl-t': 'editor:transpose'
   'ctrl-y': 'core:paste'
   'alt-b': 'editor:move-to-beginning-of-word'

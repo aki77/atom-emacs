@@ -65,6 +65,7 @@ class Emacs
       'emacs-plus:set-mark': @setMark
       'emacs-plus:transpose-lines': @transposeLines
       'emacs-plus:transpose-words': @transposeWords
+      'emacs-plus:close-other-panes': @closeOtherPanes
       'core:cancel': @deactivateCursors
 
   addClass: ->
@@ -108,6 +109,12 @@ class Emacs
     @editor.transact =>
       @editor.moveUp()
       @editor.joinLines()
+
+  closeOtherPanes: ->
+    activePane = atom.workspace.getActivePane()
+    return unless activePane
+    for pane in atom.workspace.getPanes()
+      pane.close() if pane isnt activePane
 
   exchangePointAndMark: =>
     @editor.moveCursors (cursor) ->

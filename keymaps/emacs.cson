@@ -13,9 +13,9 @@
 'atom-workspace':
   'alt-x': 'command-palette:toggle'
   'ctrl-x 0': 'pane:close'
-  'ctrl-x 1': 'pane:close-other-items'
-  'ctrl-x 2': 'pane:split-down'
-  'ctrl-x 3': 'pane:split-right'
+  'ctrl-x 1': 'emacs-plus:close-other-panes'
+  'ctrl-x 2': 'pane:split-down-and-copy-active-item'
+  'ctrl-x 3': 'pane:split-right-and-copy-active-item'
   'ctrl-x b': 'fuzzy-finder:toggle-buffer-finder'
   'ctrl-x ctrl-c': 'application:quit'
   'ctrl-x ctrl-f': 'fuzzy-finder:toggle-file-finder'

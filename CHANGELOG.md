@@ -1,3 +1,7 @@
+## 0.9.13
+* Update keymaps
+* Add 'emacs-plus:close-other-panes' command
+
 ## 0.9.12
 * Bind C-g to consolidate selections(@itiut)
 

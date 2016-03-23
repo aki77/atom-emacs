@@ -1,3 +1,6 @@
+## 0.9.14
+* Bind C-i to auto-indent(@itiut)
+
 ## 0.9.13
 * Update keymaps
 * Add 'emacs-plus:close-other-panes' command

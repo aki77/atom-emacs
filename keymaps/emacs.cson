@@ -63,6 +63,7 @@
   'alt-{': 'editor:move-to-beginning-of-previous-paragraph'
   'alt-}': 'editor:move-to-beginning-of-next-paragraph'
   'ctrl-alt-w': 'emacs-plus:append-next-kill'
+  'ctrl-i': 'editor:auto-indent'
   'ctrl-j': 'editor:newline'
   'ctrl-k': 'emacs-plus:kill-line'
   'ctrl-l': 'emacs-plus:recenter-top-bottom'

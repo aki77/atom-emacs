@@ -93,6 +93,7 @@
   'ctrl-b': 'core:select-left'
   'ctrl-e': 'editor:select-to-end-of-line'
   'ctrl-f': 'core:select-right'
+  'ctrl-g': 'core:cancel'
   'ctrl-n': 'core:select-down'
   'ctrl-p': 'core:select-up'
   'ctrl-v': 'core:select-page-down'

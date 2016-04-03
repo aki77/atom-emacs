@@ -258,29 +258,28 @@ describe 'Emacs', ->
       [cursor0, cursor1] = editor.getCursors()
       atom.commands.dispatch(editorElement, 'emacs-plus:set-mark')
 
-      expect(Mark.for(cursor0).isActive()).toBe(true)
-      point = Mark.for(cursor0).getBufferPosition()
+      expect(Mark.for(editor).isActive()).toBe(true)
+      point = cursor0.getBufferPosition()
       expect([point.row, point.column]).toEqual([0, 0])
 
-      expect(Mark.for(cursor1).isActive()).toBe(true)
-      point = Mark.for(cursor1).getBufferPosition()
+      expect(Mark.for(editor).isActive()).toBe(true)
+      point = cursor1.getBufferPosition()
       expect([point.row, point.column]).toEqual([0, 1])
 
   describe "emacs-plus:keyboard-quit", ->
     it "deactivates all marks", ->
       EditorState.set(editor, "[0].[1]")
-      [mark0, mark1] = (Mark.for(c) for c in editor.getCursors())
-      m.activate() for m in [mark0, mark1]
+      mark = Mark.for(editor)
+      mark.activate()
       atom.commands.dispatch(editorElement, 'core:cancel')
-      expect(mark0.isActive()).toBe(false)
+      expect(mark.isActive()).toBe(false)
 
   describe "emacs-plus:exchange-point-and-mark", ->
     it "exchanges all cursors with their marks", ->
+      mark = Mark.for(editor)
       EditorState.set(editor, "[0]..[1].")
-      for cursor in editor.getCursors()
-        mark = Mark.for(cursor)
-        mark.activate()
-        cursor.moveRight()
+      mark.activate(true)
+      keydown('f', ctrl: true)
       atom.commands.dispatch(editorElement, 'emacs-plus:exchange-point-and-mark')
       expect(EditorState.get(editor)).toEqual("[0].(0).[1].(1)")
 

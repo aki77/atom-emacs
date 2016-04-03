@@ -1,4 +1,5 @@
 {CompositeDisposable} = require 'atom'
+Mark = require './mark'
 
 module.exports =
 class GlobalEmacsState
@@ -10,10 +11,18 @@ class GlobalEmacsState
   subscriptions: null
   lastCommand: null
   thisCommand: null
+  activateMarkCommands: new Set
 
   constructor: ->
     @subscriptions = new CompositeDisposable
     @subscriptions.add(atom.commands.onWillDispatch(@logCommand))
+    @subscriptions.add(atom.config.observe('emacs-plus.activateMarkCommands', (value) =>
+      @activateMarkCommands = new Set(value)
+    ))
+    @subscriptions.add(atom.commands.onWillDispatch(({type: command}) =>
+      if @activateMarkCommands.has(command)
+        Mark.for(atom.workspace.getActiveTextEditor()).activate()
+    ))
 
   destroy: ->
     @subscriptions?.dispose()

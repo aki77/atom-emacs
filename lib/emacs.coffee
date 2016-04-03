@@ -12,13 +12,10 @@ class Emacs
 
   constructor: (@editor, @globalEmacsState) ->
     @editorElement = atom.views.getView(editor)
+    @mark = Mark.for(@editor)
     @subscriptions = new CompositeDisposable
     @subscriptions.add(@addClass())
     @subscriptions.add(@editor.onDidDestroy(@destroy))
-    @subscriptions.add(@editor.onDidChangeSelectionRange(_.debounce((event) =>
-      @selectionRangeChanged(event)
-    , 100)))
-    # @subscriptions.add(@editor.onDidChangeSelectionRange(@selectionRangeChanged))
 
     # need for kill-region
     @subscriptions.add(@editor.onDidInsertText( =>
@@ -32,19 +29,10 @@ class Emacs
     @destroyed = true
     @subscriptions.dispose()
     @subscriptions = null
+    @mark?.destroy()
+    @mark = null
     @editor = null
     @editorElement = null
-
-  selectionRangeChanged: (event = {}) =>
-    {selection, newBufferRange} = event
-    return unless selection?
-    return if selection.isEmpty()
-    return if @destroyed
-    return if selection.cursor.destroyed?
-
-    mark = Mark.for(selection.cursor)
-    unless mark.isActive()
-      mark.activate()
 
   registerCommands: ->
     @subscriptions.add atom.commands.add @editorElement,
@@ -96,8 +84,7 @@ class Emacs
     @deactivateCursors()
 
   deactivateCursors: =>
-    for cursor in @editor.getCursors()
-      Mark.for(cursor).deactivate()
+    @mark.deactivate()
 
   deleteHorizontalSpace: =>
     for cursor in @editor.getCursors()
@@ -117,8 +104,7 @@ class Emacs
       pane.close() if pane isnt activePane
 
   exchangePointAndMark: =>
-    @editor.moveCursors (cursor) ->
-      Mark.for(cursor).exchange()
+    @mark.exchange()
 
   justOneSpace: =>
     for cursor in @editor.getCursors()
@@ -172,8 +158,7 @@ class Emacs
     @editorElement.setScrollTop((minOffset.top + maxOffset.top - @editorElement.getHeight())/2)
 
   setMark: =>
-    for cursor in @editor.getCursors()
-      Mark.for(cursor).set().activate()
+    @mark.activate()
 
   transposeLines: =>
     cursor = @editor.getLastCursor()

@@ -1,3 +1,6 @@
+## 0.10.0
+* Refactor mark(Fix #6, #14)
+
 ## 0.9.14
 * Bind C-i to auto-indent(@itiut)
 

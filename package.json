@@ -1,7 +1,7 @@
 {
   "name": "emacs-plus",
   "main": "./lib/main",
-  "version": "0.9.14",
+  "version": "0.10.0",
   "description": "Emacs-like experience in the Atom.(Fork of atomic-emacs)",
   "repository": "https://github.com/aki77/atom-emacs-plus",
   "license": "MIT",
@@ -18,7 +18,9 @@
     "activateMarkCommands": {
       "order": 1,
       "type": "array",
-      "default": ["editor:select-word"],
+      "default": [
+        "editor:select-word"
+      ],
       "items": {
         "type": "string"
       }

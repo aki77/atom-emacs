@@ -1,9 +1,9 @@
 {CompositeDisposable} = require 'atom'
+packageDeps = require 'atom-package-deps'
 Emacs = require './emacs'
 GlobalEmacsState = require './global-emacs-state'
 
 module.exports =
-
   activate: ->
     @subscriptions = new CompositeDisposable
     @emacsObjects = new WeakMap
@@ -12,6 +12,7 @@ module.exports =
       return if editor.mini
       unless @emacsObjects.get(editor)
         @emacsObjects.set(editor, new Emacs(editor, @globalEmacsState))
+    packageDeps.install('emacs-plus')
 
   deactivate: ->
     @subscriptions?.dispose()

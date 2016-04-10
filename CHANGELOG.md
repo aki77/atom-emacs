@@ -1,3 +1,6 @@
+## 0.11.0
+* Add advanced-open-file to package-deps
+
 ## 0.10.0
 * Refactor mark(Fix #6, #14)
 

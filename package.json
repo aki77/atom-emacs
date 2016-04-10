@@ -9,8 +9,10 @@
     "atom": ">=1.6.0 <2.0.0"
   },
   "dependencies": {
-    "underscore-plus": "1.x"
+    "underscore-plus": "1.x",
+    "atom-package-deps": "4.0.1"
   },
+  "package-deps": ["advanced-open-file"],
   "keywords": [
     "emacs"
   ],

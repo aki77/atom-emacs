@@ -18,7 +18,7 @@
   'ctrl-x 3': 'pane:split-right-and-copy-active-item'
   'ctrl-x b': 'fuzzy-finder:toggle-buffer-finder'
   'ctrl-x ctrl-c': 'application:quit'
-  'ctrl-x ctrl-f': 'fuzzy-finder:toggle-file-finder'
+  'ctrl-x ctrl-f': 'advanced-open-file:toggle'
   'ctrl-x ctrl-j': 'tree-view:reveal-active-file'
   'ctrl-x k': 'core:close'
   'ctrl-x o': 'window:focus-next-pane'
@@ -123,3 +123,11 @@
   'shift-d': 'tree-view:remove'
   'shift-e': 'tree-view:recursive-expand-directory'
   'shift-r': 'tree-view:rename'
+
+# advanced-open-file
+'.advanced-open-file atom-text-editor':
+  'ctrl-i': 'advanced-open-file:autocomplete'
+  'ctrl-p': 'advanced-open-file:move-cursor-up'
+  'ctrl-n': 'advanced-open-file:move-cursor-down'
+  'ctrl-w': 'advanced-open-file:delete-path-component'
+  'ctrl-/': 'advanced-open-file:undo'

@@ -1,7 +1,7 @@
 {
   "name": "emacs-plus",
   "main": "./lib/main",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Emacs-like experience in the Atom.(Fork of atomic-emacs)",
   "repository": "https://github.com/aki77/atom-emacs-plus",
   "license": "MIT",
@@ -12,7 +12,9 @@
     "underscore-plus": "1.x",
     "atom-package-deps": "4.0.1"
   },
-  "package-deps": ["advanced-open-file"],
+  "package-deps": [
+    "advanced-open-file"
+  ],
   "keywords": [
     "emacs"
   ],

@@ -11,7 +11,7 @@ class Emacs
   destroyed: false
 
   constructor: (@editor, @globalEmacsState) ->
-    @editorElement = atom.views.getView(editor)
+    @editorElement = atom.views.getView(@editor)
     @mark = Mark.for(@editor)
     @subscriptions = new CompositeDisposable
     @subscriptions.add(@addClass())

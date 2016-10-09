@@ -1,3 +1,6 @@
+## 0.11.1
+* Fix issues related to incoming coffee script version bump in Atom (#25)
+
 ## 0.11.0
 * Add advanced-open-file to package-deps
 

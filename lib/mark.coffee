@@ -1,4 +1,5 @@
 {Point, CompositeDisposable, Disposable} = require('atom')
+JsDiff = require('diff')
 
 class Mark
   MARK_MODE_CLASS = 'mark-mode'
@@ -72,20 +73,13 @@ class Mark
       cursor.clearSelection()
     )
 
-  _onModified: (event) =>
-    return if @_isIndent(event) or @_isOutdent(event)
-    @deactivate(immediate: true)
+  _onModified: ({oldText, newText}) =>
+    @deactivate(immediate: true) if @_isDiffTrimmedLines(oldText, newText)
 
-  _isIndent: (event) ->
-    @_isIndentOutdent(event.newRange, event.newText)
-
-  _isOutdent: (event) ->
-    @_isIndentOutdent(event.oldRange, event.oldText)
-
-  _isIndentOutdent: (range, text) ->
-    tabLength = @editor.getTabLength()
-    diff = range.end.column - range.start.column
-    true if diff == @editor.getTabLength() and range.start.row == range.end.row and @_checkTextForSpaces(text, tabLength)
+  _isDiffTrimmedLines: (oldText, newText) ->
+    JsDiff.diffTrimmedLines(oldText, newText).some(({added, removed}) ->
+      !!added || !!removed
+    )
 
   _checkTextForSpaces: (text, tabSize) ->
     return false unless text and text.length is tabSize

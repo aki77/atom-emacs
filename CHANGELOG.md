@@ -1,6 +1,7 @@
 ## 0.12
 
 * Fix block indent
+* atom-package-deps@4.6.2
 
 ## 0.11.1
 

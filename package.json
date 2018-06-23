@@ -1,7 +1,7 @@
 {
   "name": "emacs-plus",
   "main": "./lib/main",
-  "version": "0.11.1",
+  "version": "0.12.0",
   "description": "Emacs-like experience in the Atom.(Fork of atomic-emacs)",
   "repository": "https://github.com/aki77/atom-emacs-plus",
   "license": "MIT",
@@ -13,13 +13,19 @@
     "diff": "3.5.0",
     "underscore-plus": "1.x"
   },
-  "package-deps": ["advanced-open-file"],
-  "keywords": ["emacs"],
+  "package-deps": [
+    "advanced-open-file"
+  ],
+  "keywords": [
+    "emacs"
+  ],
   "configSchema": {
     "activateMarkCommands": {
       "order": 1,
       "type": "array",
-      "default": ["editor:select-word"],
+      "default": [
+        "editor:select-word"
+      ],
       "items": {
         "type": "string"
       }
